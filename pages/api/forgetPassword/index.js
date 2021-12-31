@@ -21,7 +21,7 @@ const transporter = nodemailer.createTransport({
 handler.post(async (req, res) => {
   
   var hostname = req.headers.host; // hostname = 'localhost:8080'
-  var finall = 'http://' + hostname;
+  var finall = 'https://' + hostname;
 
   await db.connect();
   const user = await User.findOne({ email: req.body.email });
