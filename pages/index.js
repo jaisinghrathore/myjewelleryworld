@@ -80,10 +80,10 @@ export default function Home(props) {
   return (
     <Layout>
       <Carousel className={classes.mt1} animation="slide">
-        {summary.map((product) => (
+        {summary.map((product,inde) => (
           <NextLink
-            key={product}
-            href={product}
+            key={inde}
+            href='/'
             passHref
           >
             <Link>

@@ -36,6 +36,7 @@
     "react-hook-form": "^7.11.0",
     "react-material-ui-carousel": "^2.2.7",
     "react-phone-number-input": "^3.1.44",
+    "react-responsive-carousel": "^3.2.22",
     "sendmail": "^1.6.1",
     "streamifier": "^0.1.1",
     "stripe": "^8.195.0"

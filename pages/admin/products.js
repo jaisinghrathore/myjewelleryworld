@@ -143,6 +143,11 @@ function AdminProdcuts() {
                   <ListItemText primary="Admin Dashboard"></ListItemText>
                 </ListItem>
               </NextLink>
+              <NextLink href="/admin/banners" passHref>
+                <ListItem button component="a">
+                  <ListItemText primary="Banners"></ListItemText>
+                </ListItem>
+              </NextLink>
               <NextLink href="/admin/orders" passHref>
                 <ListItem button component="a">
                   <ListItemText primary="Orders"></ListItemText>

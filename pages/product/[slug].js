@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import NextLink from 'next/link';
-import Image from 'next/image';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {
   Grid,
   Link,
@@ -22,6 +22,7 @@ import { Store } from '../../utils/Store';
 import { getError } from '../../utils/error';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
+import { Carousel } from "react-responsive-carousel";
 
 export default function ProductScreen(props) {
   const router = useRouter();
@@ -99,14 +100,23 @@ export default function ProductScreen(props) {
       </div>
       <Grid container spacing={1}>
         <Grid item md={6} xs={12}  style={{borderRadius: '30px'}}>
-          <Image
-            src={product.image}                   //dssssssssssssssss
+          {/* <Image
+            src={product.image[1]}                  
             alt={product.name}
             width={500}
             height={500}
             layout="responsive"
   
-          ></Image>
+          ></Image> */}
+  <Carousel autoPlay showIndicators={false}>
+  {product.image.map((productImage,index)=>(
+    <Grid key={index} style={{height:'350px',width:'100%'}} >
+      <img alt="index" src={productImage} width="100%" height="100%" style={{borderRadius:'4px'}} />
+    </Grid>
+  ))}
+    
+
+  </Carousel>
         </Grid>
         <Grid item md={3} xs={12}>
           <List>

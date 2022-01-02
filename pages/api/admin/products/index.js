@@ -18,7 +18,7 @@ handler.post(async (req, res) => {
   const newProduct = new Product({
     name: 'sample name',
     slug: 'sample-slug-' + Math.random(),
-    image: '/images/shirt1.jpg',
+    image: [],
     price: 0,
     category: 'sample category',
     brand: 'sample brand',

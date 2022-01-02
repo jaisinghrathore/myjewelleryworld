@@ -32,7 +32,8 @@ handler.use(isAuth, isAdmin, upload.single('file')).post(async (req, res) => {
       });
       streamifier.createReadStream(req.file.buffer).pipe(stream);
     });
-  }
+  };
+
   const result = await streamUpload(req);
   res.send(result);
 });

@@ -2,7 +2,7 @@ import axios from 'axios';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
-import React, { useEffect, useContext, useReducer } from 'react';
+import React, { useEffect, useContext, useReducer,useState } from 'react';
 import {
   Grid,
   List,
@@ -69,7 +69,7 @@ function ProductEdit({ params }) {
   const router = useRouter();
   const classes = useStyles();
   const { userInfo } = state;
-
+  const [uploadedImage,setUploadedImage] = useState('');
   useEffect(() => {
     if (!userInfo) {
       return router.push('/login');
@@ -96,6 +96,8 @@ function ProductEdit({ params }) {
       fetchData();
     }
   }, []);
+
+
   const uploadHandler = async (e) => {
     const file = e.target.files[0];
     const bodyFormData = new FormData();
@@ -110,12 +112,14 @@ function ProductEdit({ params }) {
       });
       dispatch({ type: 'UPLOAD_SUCCESS' });
       setValue('image', data.secure_url);
+      setUploadedImage(data.secure_url);
       enqueueSnackbar('File uploaded successfully', { variant: 'success' });
     } catch (err) {
-      dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) });
+       dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) });
       enqueueSnackbar(getError(err), { variant: 'error' });
     }
   };
+
 
   const submitHandler = async ({
     name,
@@ -268,21 +272,22 @@ function ProductEdit({ params }) {
                       <Controller
                         name="image"
                         control={control}
-                        defaultValue=""
+                        defaultValue="Enter Image URL/Upload."
                         rules={{
                           required: true,
                         }}
                         render={({ field }) => (
-                          <TextField                          
+                            <TextField                          
                             variant="outlined"
                             fullWidth
                             id="image"
                             label="Image"
-                            error={Boolean(errors.image)}
+                            name='image'
+                            onChange={field.onChange}
                             helperText={errors.image ? 'Image is required' : ''}
-                            {...field}
                           ></TextField>
-                        )}
+                        )
+                        }
                       ></Controller>
                     </ListItem>
                     <ListItem>
@@ -290,6 +295,7 @@ function ProductEdit({ params }) {
                         Upload File
                         <input type="file" onChange={uploadHandler} hidden />
                       </Button>
+                      <span style={{fontSize:'12px',paddingLeft:'10px'}}>{uploadedImage}</span>
                       {loadingUpload && <CircularProgress />}
                     </ListItem>
                     <ListItem>
