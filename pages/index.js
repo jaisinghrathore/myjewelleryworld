@@ -8,7 +8,7 @@ import Product from '../models/Product';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Store } from '../utils/Store';
-import ProductItem from '../components/ProductItem';
+import ProductItem from '../components/ProductItem2';
 import Carousel from 'react-material-ui-carousel';
 import useStyles from '../utils/styles';
 

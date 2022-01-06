@@ -308,7 +308,7 @@ function Order({ params }) {
                     </Grid>
                   </Grid>
                 </ListItem>
-                <ListItem>
+                {/* <ListItem>
                   <Grid container>
                     <Grid item xs={6}>
                       <Typography>Tax:</Typography>
@@ -317,7 +317,7 @@ function Order({ params }) {
                       <Typography align="right">₹{taxPrice}</Typography>
                     </Grid>
                   </Grid>
-                </ListItem>
+                </ListItem> */}
                 <ListItem>
                   <Grid container>
                     <Grid item xs={6}>

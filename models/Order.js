@@ -24,13 +24,13 @@ const orderSchema = new mongoose.Schema(
     paymentResult: { id: String, status: String, email_address: String },
     itemsPrice: { type: Number, required: true },
     shippingPrice: { type: Number, required: true },
-    taxPrice: { type: Number, required: true },
+    // taxPrice: { type: Number, required: true },
     userEmail:{ type: String, required: true },
     totalPrice: { type: Number, required: true },
     isPaid: { type: Boolean, required: true, default: false },
     isDelivered: { type: Boolean, required: true, default: false },
     paidAt: { type: Date },
-    deliveredAt: { type: Date },
+    deliveredAt: { type: Date }
   },
   {
     timestamps: true,

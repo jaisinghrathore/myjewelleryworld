@@ -60,6 +60,21 @@ handler.post(async (req, res) => {
       console.log(info);
     }
   });
+
+
+  await transporter.sendMail({
+    from:'sgoyall322@gmail.com',
+    to:'sahajgoyal65@gmail.com',
+    subject:`New Order Mr.Sahaj :-) `,
+    html:`<b>${order.shippingAddress.fullName.split(" ")[0]}</b> has placed an order from myjewelleryworld. His/Her order id is (${order._id}),To visit order history click : ${finall}/order/${order._id}`
+  },(err,info)=>{
+    if(err){
+      console.log(err);
+    }else{
+      console.log(info);
+    }
+  });
+
   res.status(201).send(order);
 });
 

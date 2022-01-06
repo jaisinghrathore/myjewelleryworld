@@ -17,7 +17,7 @@ import Carousel from 'react-material-ui-carousel';
 
 export default function ProductItem({ product, addToCartHandler }) {
   return (
-    <Card style={{width:'303px'}}>
+    <Card className="searchItemsCard">
       <NextLink href={`/product/${product.slug}`} passHref>
         <CardActionArea>
           {/* <CardMedia
@@ -31,7 +31,7 @@ export default function ProductItem({ product, addToCartHandler }) {
                 key={index}
                 src={product}
                 alt={product._id}
-                style={{height:'300px',width:'100%',objectFill:'fill'}}
+                className="searchItems"
               ></img>
         ))}
       </Carousel>

@@ -54,8 +54,10 @@ function Razo() {
 		cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
 	  );
 	  const shippingPrice = 80;
-	  const taxPrice = round2(itemsPrice * 3/100);
-	  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+	//   const taxPrice = round2(itemsPrice * 3/100);
+	//   const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+
+  const totalPrice = round2(itemsPrice + shippingPrice);
 
 
 const promise = new Promise((res,rej)=>{
@@ -66,9 +68,9 @@ const promise = new Promise((res,rej)=>{
 			alert('Razorpay SDK failed to load. Are you online?')       
 			return
 		}
-
+		
 		const options = {
-			key:'rzp_test_9jIVLCZFE8w8Fo',
+			key:process.env.RAZORPATSECRET,
 			currency: "INR",
 			amount: totalPrice * 100,
 			order_id: "",
@@ -77,7 +79,6 @@ const promise = new Promise((res,rej)=>{
 			handler: function (response) {
 				// localStorage.setItem("success","true");
 				// localStorage.setItem("payment","false");
-	if(response.status_code===200 && response){				
 					
   	const placeOrderHandler = async () => {
     closeSnackbar();
@@ -92,8 +93,8 @@ const promise = new Promise((res,rej)=>{
 		  razorpay_payment_id:response.razorpay_payment_id,
           itemsPrice,
           shippingPrice,
-          taxPrice,
-          totalPrice, 
+        //   taxPrice,
+		totalPrice, 
           isPaid:true,
 		  userEmail:userInfo.email
         },
@@ -113,12 +114,8 @@ const promise = new Promise((res,rej)=>{
     }
   };
 
+  placeOrderHandler();	
 
-  placeOrderHandler();
-	
-				}else{
-					alert('payment unsuccessfull.')
-				}
 			},
 			prefill: {
 				name:shippingAddress.fullName,

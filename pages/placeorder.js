@@ -41,8 +41,11 @@ function PlaceOrder() {
     cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
   );
   const shippingPrice = 80;
-  const taxPrice = round2(itemsPrice * 3/100);
-  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+  
+  // const taxPrice = round2(itemsPrice * 3/100);
+  // const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+
+  const totalPrice = round2(itemsPrice + shippingPrice);
 
   useEffect(() => {
     if (!paymentMethod) {
@@ -199,7 +202,7 @@ const placeOrderHandler = () => {
                   </Grid>
                 </Grid>
               </ListItem>
-              <ListItem>
+              {/* <ListItem>
                 <Grid container>
                   <Grid item xs={6}>
                     <Typography>Tax:</Typography>
@@ -208,7 +211,7 @@ const placeOrderHandler = () => {
                     <Typography align="right">₹{taxPrice}</Typography>
                   </Grid>
                 </Grid>
-              </ListItem>
+              </ListItem> */}
               <ListItem>
                 <Grid container>
                   <Grid item xs={6}>

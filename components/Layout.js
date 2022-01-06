@@ -134,18 +134,18 @@ export default function Layout({ title, description, children }) {
 
 React.useEffect(()=>{
   if(Number(window.innerWidth)<=800){
-    setSiz({width:'80px',height:'40px'})
+    setSiz({width:'90px',height:'50px'})
   }else{      
-    setSiz({width:'200px',height:'100px'})
+    setSiz({width:'150px',height:'70px'})
   }
 },[]);
 
 React.useEffect(()=>{
 window.onresize = function(event) {
   if(Number(window.innerWidth)<=800){
-    setSiz({width:'80px',height:'40px'})
+    setSiz({width:'90px',height:'50px'})
   }else{      
-    setSiz({width:'200px',height:'100px'})
+    setSiz({width:'150px',height:'70px'})
   }
 }
 })
@@ -155,7 +155,7 @@ window.onresize = function(event) {
   return (
     <div>
       <Head>
-        <title>{title ? `${title} - Next Amazona` : 'Next Amazona'}</title>
+        <title>{title ? `${title} - myjewelleryworld` : 'myjewelleryworld'}</title>
         {description && <meta name="description" content={description}></meta>}
       </Head>
       <ThemeProvider theme={theme}>
