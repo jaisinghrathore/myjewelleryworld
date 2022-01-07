@@ -268,7 +268,7 @@ window.onresize = function(event) {
                     onClick={loginClickHandler}
                     className={classes.navbarButton}
                   >
-                    {userInfo.name}
+                    {userInfo.name.split(' ').length===1?userInfo.name.slice(0,6)+"...":userInfo.name.split(' ')[0]}
                   </Button>
                   <Menu
                     id="simple-menu"

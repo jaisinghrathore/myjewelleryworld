@@ -44,7 +44,8 @@ handler.post(async (req, res) => {
     }
   });
   res.send(token);
-
+//token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWNjNDNlNDgwNTk4NjIxMThkNTliOTMiLCJuYW1lIjoiamFpIiwiZW1haWwiOiJqYWlycXRob3JlQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0MTU3NzI3OSwiZXhwIjoxNjQxNTc3NTc5fQ.ZbOzRpeLwrXU98WW7kPrmLHMr8Ymu2S92IkN1bPcMxw
+//token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWNjNDNlNDgwNTk4NjIxMThkNTliOTMiLCJuYW1lIjoiamFpIiwiZW1haWwiOiJqYWlycXRob3JlQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0MTU3NzM3NSwiZXhwIjoxNjQxNTc3Njc1fQ.ftVjDIAPEDiN2w9_djeNsQaTg4W70ZCTyFd6e_OVhjQ
 });
 
 export default handler;

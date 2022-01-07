@@ -24,7 +24,7 @@ handler.post(async (req, res) => {
                 password: bcrypt.hashSync(req.body.password)
             }
         })
-        res.send(upd);
+        res.send(upd);  
         }catch(err){
     res.status(401).send({ message: 'Invalid token!' });
         }
