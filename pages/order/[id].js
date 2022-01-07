@@ -84,7 +84,7 @@ function Order({ params }) {
     itemsPrice,
     taxPrice,
     shippingPrice,
-    totalPrice,
+    amount,
     isPaid,
     paidAt,
     isDelivered,
@@ -148,7 +148,7 @@ function Order({ params }) {
       .create({
         purchase_units: [
           {
-            amount: { value: totalPrice },
+            amount: { value: amount },
           },
         ],
       })
@@ -255,10 +255,12 @@ function Order({ params }) {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {orderItems.map((item) => (
+                        {orderItems.map((item) => {
+                        
+                          return(
                           <TableRow key={item._id}>
                             <TableCell>
-                              <NextLink href={`/product/${item.slug}`} passHref>
+                              <NextLink href={`/`} passHref>
                                 <Link>
                                   <Image
                                     src={item.image[0]}
@@ -271,7 +273,7 @@ function Order({ params }) {
                             </TableCell>
 
                             <TableCell>
-                              <NextLink href={`/product/${item.slug}`} passHref>
+                              <NextLink href={`/`} passHref>
                                 <Link>
                                   <Typography>{item.name}</Typography>
                                 </Link>
@@ -284,7 +286,7 @@ function Order({ params }) {
                               <Typography>₹{item.price}</Typography>
                             </TableCell>
                           </TableRow>
-                        ))}
+                        )})}
                       </TableBody>
                     </Table>
                   </TableContainer>
@@ -337,7 +339,7 @@ function Order({ params }) {
                     </Grid>
                     <Grid item xs={6}>
                       <Typography align="right">
-                        <strong>₹{totalPrice}</strong>
+                        <strong>₹{amount}</strong>
                       </Typography>
                     </Grid>
                   </Grid>

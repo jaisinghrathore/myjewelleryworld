@@ -9,7 +9,7 @@ module.exports = {
     ignoreDuringBuilds: true,
   },
   env:{
-"BASE_URL":"https://jewelleryworldofshivamgems.herokuapp.com",
+"BASE_URL":"https://myjewelleryworld.com",
 "MONGODB_URI":"mongodb+srv://sahaj:Jai@12345678@cluster0.gaclz.mongodb.net/nextAmazon?retryWrites=true&w=majority",
 "JWT_SECRET":"sahajsecretsomethinggg",
 "PAYPAL_CLIENT_ID":"fdf",
@@ -22,6 +22,8 @@ module.exports = {
 "CLOUDINARY_API_SECRET":"4upEKquN4FeQXKMtbgX3Xy7EjyA",
 "CLOUDINARY_API_KEY":"714261158129832",
 'CLOUDINARY_CLOUD_NAME':"dlq6gzmin",
-"RAZORPATSECRET":'rzp_test_33nkkRoR7QOkvU'
+"RAZORPATSECRET":'rzp_test_9EDbkGemD2Sivu',
+"RAZORPAY_KEY_ID":'rzp_test_9EDbkGemD2Sivu',
+'RAZORPAY_SECRET':"cnmXMVV7g3B9HieK8IVmVzNc"
   }
 };

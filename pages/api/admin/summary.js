@@ -20,7 +20,7 @@ handler.get(async (req, res) => {
     {
       $group: {
         _id: null,
-        sales: { $sum: '$totalPrice' },
+        sales: { $sum: '$amount' },
       },
     },
   ]);
@@ -30,7 +30,7 @@ handler.get(async (req, res) => {
     {
       $group: {
         _id: { $dateToString: { format: '%Y-%m', date: '$createdAt' } },
-        totalSales: { $sum: '$totalPrice' },
+        totalSales: { $sum: '$amount' },
       },
     },
   ]);

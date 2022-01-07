@@ -6,140 +6,128 @@ import { useSnackbar } from 'notistack';
 import { getError } from '../utils/error';
 import Cookies from 'js-cookie';
 
-function loadScript(src) {
-	return new Promise((resolve) => {
-		const script = document.createElement('script')
-		script.src = src
-		script.onload = () => {
-			resolve(true)
-		}
-		script.onerror = () => {
-			resolve(false)
-		}
-		document.body.appendChild(script)
-	})
-}
-
-
 
 function Razo() {
+  const [loading, setLoading] = useState(false);
+  const [orderAmount, setOrderAmount] = useState(0);
+  const [orders, setOrders] = useState([]);
 
-	const router = useRouter();
-
-	const { state, dispatch } = useContext(Store);
-
-	const {
-		userInfo,
-		cart: { cartItems, shippingAddress, paymentMethod },
-	  } = state;
+  const router = useRouter();
+  const { state, dispatch } = useContext(Store);
 
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
-  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!userInfo) {
+        router.push('/login');
+      }
+    if (!paymentMethod) {
+      router.push('/payment');
+    }
+    if (cartItems.length === 0) {
+      router.push('/cart');
+    }
+  }, []);
 
 
-	useEffect(() => {
-		if (!userInfo) {
-			router.push('/login');
-		  }
-		if (!paymentMethod) {
-		  router.push('/payment');
-		}
-		if (cartItems.length === 0) {
-		  router.push('/cart');
-		}
-	  }, []);
-
-	  const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.456 => 123.46
-	  const itemsPrice = round2(
-		cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
-	  );
-	  const shippingPrice = 80;
-	//   const taxPrice = round2(itemsPrice * 3/100);
-	//   const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
-
-  const totalPrice = round2(itemsPrice + shippingPrice);
+  const {
+      userInfo,
+      cart: { cartItems, shippingAddress, paymentMethod },
+    } = state;
 
 
-const promise = new Promise((res,rej)=>{
-    async function displayRazorpay() {
-		const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
+    const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.456 => 123.46
+    const itemsPrice = round2(
+      cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
+    );
+    const shippingPrice = 80;
+  //   const taxPrice = round2(itemsPrice * 3/100);
+  //   const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+  
+  var totalPrice = round2(itemsPrice + shippingPrice);
 
-		if (!res) {
-			alert('Razorpay SDK failed to load. Are you online?')       
-			return
-		}
-		
-		const options = {
-			key:process.env.RAZORPATSECRET,
-			currency: "INR",
-			amount: totalPrice * 100,
-			order_id: "",
-			name:"Hello " + shippingAddress.fullName,
-			description: 'Thank you for your interest.',
-			handler: function (response) {
-				// localStorage.setItem("success","true");
-				// localStorage.setItem("payment","false");
-					
-  	const placeOrderHandler = async () => {
-    closeSnackbar();
-    try {
-      setLoading(true);
-      const { data } = await axios.post(
-        '/api/orders',
-        {
-          orderItems: cartItems,
-          shippingAddress,
-          paymentMethod,
-		  razorpay_payment_id:response.razorpay_payment_id,
-          itemsPrice,
-          shippingPrice,
-        //   taxPrice,
-		totalPrice, 
-          isPaid:true,
-		  userEmail:userInfo.email
+  
+  function loadRazorpay() {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onerror = () => {
+      alert('Razorpay SDK failed to load. Are you online?');
+    };
+    script.onload = async () => {
+      try {
+        setLoading(true);
+        const result = await axios.post('/api/razorpay/create-order', {
+            amount:  totalPrice * 100,
         },
         {
-          headers: {
-            authorization: `Bearer ${userInfo.token}`,
+            headers: {
+              authorization: `Bearer ${userInfo.token}`,
+            },
+          });
+        const {
+          data: { key: razorpayKey },
+        } = await axios.get('/api/razorpay/get-razorpay-key');
+        const options = {
+          key: razorpayKey,
+          amount: result.data.amount,
+          currency: 'INR',
+          name: shippingAddress.fullName,
+          description: 'Proceed to success.',
+          order_id: result.data.id,
+          handler: async function (response) {
+            const resultt = await axios.post('/api/razorpay/pay-order', {
+            //   amount: amount,
+            //   razorpayPaymentId: response.razorpay_payment_id,
+            //   razorpayOrderId: response.razorpay_order_id,
+            //   razorpaySignature: response.razorpay_signature,
+            orderItems: cartItems,
+            shippingAddress,
+            paymentMethod,
+            razorpay_payment_id:response.razorpay_payment_id,
+            razorpayOrderId: response.razorpay_order_id,
+            razorpaySignature: response.razorpay_signature,
+            itemsPrice,
+            shippingPrice,
+            amount:totalPrice, 
+            isPaid:true,
+            userEmail:userInfo.email
+            }
+            ,{
+                headers: {
+                  authorization: `Bearer ${userInfo.token}`,
+                },
+              });
+            dispatch({ type: 'CART_CLEAR' });
+            Cookies.remove('cartItems');
+	        window.location.replace(`/order/${resultt.data._id}`);
           },
-        }
-      );
-      dispatch({ type: 'CART_CLEAR' });
-      Cookies.remove('cartItems');
-	  window.location.replace(`/order/${data._id}`);
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      enqueueSnackbar(getError(err), { variant: 'error' });
-    }
-  };
+          prefill: {
+            name:shippingAddress.fullName,
+            email: userInfo.email,
+            contact: shippingAddress.phone
+          },
+        };
 
-  placeOrderHandler();	
+        setLoading(false);
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+      } catch (err) {
+        alert(err);
+        setLoading(false);
+      }
+    };
+    document.body.appendChild(script);
+  }
 
-			},
-			prefill: {
-				name:shippingAddress.fullName,
-				email: userInfo.email,
-				contact: shippingAddress.phone
-			}
-		}
-		const paymentObject = new window.Razorpay(options)
-		paymentObject.open()
-	}
-
-	if (paymentMethod && cartItems.length > 0 && userInfo) {
-		displayRazorpay()
-	}
+  React.useEffect(()=>{
+    loadRazorpay();
+  },[])
    
-}).then(()=>{
-    alert("...");
-})
 
-
-	return (
-		<div className="App" style={{height:"100vh",width:"100%",backgroundColor:"black"}}>
-		</div>
-	)
+  return (
+    <div className="App" style={{height:"100vh",width:"100%",backgroundColor:"black"}}>
+    </div>
+  );
 }
 
-export default Razo
+export default Razo;
